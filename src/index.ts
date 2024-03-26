@@ -4,7 +4,7 @@ import { Extension } from "@tiptap/core";
 import { NodeSelection, Plugin, TextSelection } from "@tiptap/pm/state";
 import { Fragment, Slice, Node } from "@tiptap/pm/model";
 
-export interface DragHandleOptions {
+export interface GlobalDragHandleOptions {
   /**
    * The width of the drag handle
    */
@@ -41,7 +41,7 @@ function nodeDOMAtCoords(coords: { x: number; y: number }) {
 function nodePosAtDOM(
   node: Element,
   view: EditorView,
-  options: DragHandleOptions
+  options: GlobalDragHandleOptions
 ) {
   const boundingRect = node.getBoundingClientRect();
 
@@ -57,7 +57,7 @@ function calcNodePos(pos: number, view: EditorView) {
   return pos;
 }
 
-function DragHandleFunc(options: DragHandleOptions) {
+function DragHandle(options: GlobalDragHandleOptions) {
   let listType = "";
   function handleDragStart(event: DragEvent, view: EditorView) {
     view.focus();
@@ -274,16 +274,16 @@ function DragHandleFunc(options: DragHandleOptions) {
   });
 }
 
-const DragHandle = Extension.create({
-  name: "dragHandle",
+const GlobalDragHandle = Extension.create({
+  name: "globalDragHandle",
 
   addProseMirrorPlugins() {
     return [
-      DragHandleFunc({
+      DragHandle({
         dragHandleWidth: 24,
       }),
     ];
   },
 });
 
-export default DragHandle;
+export default GlobalDragHandle;
