@@ -1,0 +1,16 @@
+{
+  "name": "tiptap-extension-drag-handle",
+  "version": "0.1.0",
+  "author": {
+    "name": "Niclas Gregor",
+    "email": "niclas.gregor20@gmail.com",
+    "github": "https://github.com/NiclasDev63"
+  },
+  "files": [
+    "index.js"
+],
+  "dependencies": {
+    "@tiptap/core": "^2.2.4",
+    "@tiptap/pm": "^2.2.4"
+  }
+}
