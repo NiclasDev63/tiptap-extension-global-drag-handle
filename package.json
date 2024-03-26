@@ -1,16 +1,44 @@
 {
   "name": "tiptap-extension-drag-handle",
+  "description": "drag handle extension for tiptap",
   "version": "0.1.0",
   "author": {
     "name": "Niclas Gregor",
     "email": "niclas.gregor20@gmail.com",
     "github": "https://github.com/NiclasDev63"
   },
+  "license": "MIT",
+  "keywords": [
+    "tiptap",
+    "tiptap extension",
+    "drag handle"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
-    "index.js"
-],
+    "dist"
+  ],
   "dependencies": {
     "@tiptap/core": "^2.2.4",
     "@tiptap/pm": "^2.2.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NiclasDev63/tiptap-extension-drag-handle"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.3"
   }
 }
