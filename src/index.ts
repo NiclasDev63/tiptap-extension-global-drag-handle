@@ -4,7 +4,6 @@ import { Extension } from "@tiptap/core";
 import { NodeSelection, Plugin, TextSelection } from "@tiptap/pm/state";
 import { Fragment, Slice, Node } from "@tiptap/pm/model";
 
-// based on https://github.com/steven-tey/novel/blob/main/packages/headless/src/extensions/drag-and-drop.tsx
 export interface DragHandleOptions {
   /**
    * The width of the drag handle
@@ -82,17 +81,21 @@ function DragHandleFunc(options: DragHandleOptions) {
     const fromSelectionPos = calcNodePos(from, view);
     let differentNodeSelected = false;
 
-    // check if the "from" position points into an empty node
-    // if (!view.state.doc.nodeAt(fromSelectionPos)) differentNodeSelected = true;
-    // else {
-    const nodePos = view.state.doc.resolve(fromSelectionPos).before();
-    const nodeSelection = NodeSelection.create(view.state.doc, nodePos);
-    // Check if the node where the drag event started is part of the current selection
-    differentNodeSelected = !(
-      draggedNodePos + 1 >= nodeSelection.$from.pos &&
-      draggedNodePos <= nodeSelection.$to.pos
-    );
-    // }
+    const nodePos = view.state.doc.resolve(fromSelectionPos);
+
+    // Check if nodePos points to the top level node
+    if (nodePos.node().type.name === "doc") differentNodeSelected = true;
+    else {
+      const nodeSelection = NodeSelection.create(
+        view.state.doc,
+        nodePos.before()
+      );
+      // Check if the node where the drag event started is part of the current selection
+      differentNodeSelected = !(
+        draggedNodePos + 1 >= nodeSelection.$from.pos &&
+        draggedNodePos <= nodeSelection.$to.pos
+      );
+    }
 
     if (
       !differentNodeSelected &&
@@ -158,7 +161,6 @@ function DragHandleFunc(options: DragHandleOptions) {
       dragHandleElement.addEventListener("dragstart", (e) => {
         handleDragStart(e, view);
       });
-
       hideDragHandle();
 
       view?.dom?.parentElement?.appendChild(dragHandleElement);

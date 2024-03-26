@@ -1,14 +1,16 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "module": "commonjs",
+    "module": "esnext",
     "outDir": "./dist",
     "strict": true,
     "moduleResolution": "node",
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "declaration": true
+    "declaration": true,
+    "baseUrl": "."
   },
-  "include": ["src"]
+  "include": ["src", "src/dragHandle.css"],
+  "exclude": ["node_modules"]
 }
