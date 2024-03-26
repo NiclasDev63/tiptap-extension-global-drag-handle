@@ -23,3 +23,4 @@ new Editor({
   ],
 })
 ```
+It is recommended to use this extension together with the autojoiner extension to get the expected behavior for lists.
