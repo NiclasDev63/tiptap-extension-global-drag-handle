@@ -23,4 +23,4 @@ new Editor({
   ],
 })
 ```
-It is recommended to use this extension together with the autojoiner extension to get the expected behavior for lists.
+It is recommended to use this extension together with the [AutoJoiner](https://github.com/NiclasDev63/tiptap-extension-auto-joiner) extension to get the expected behavior for lists.
