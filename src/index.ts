@@ -9,6 +9,11 @@ export interface GlobalDragHandleOptions {
    * The width of the drag handle
    */
   dragHandleWidth: number;
+
+  /**
+   * The treshold for scrolling
+   */
+  scrollTreshold: number;
 }
 function absoluteRect(node: Element) {
   const data = node.getBoundingClientRect();
@@ -161,6 +166,17 @@ function DragHandle(options: GlobalDragHandleOptions) {
       dragHandleElement.addEventListener("dragstart", (e) => {
         handleDragStart(e, view);
       });
+
+      dragHandleElement.addEventListener("drag", (e) => {
+        hideDragHandle();
+        let scrollY = window.scrollY;
+        if (e.clientY < options.scrollTreshold) {
+          window.scrollTo({ top: scrollY - 30, behavior: "smooth" });
+        } else if (window.innerHeight - e.clientY < options.scrollTreshold) {
+          window.scrollTo({ top: scrollY + 30, behavior: "smooth" });
+        }
+      });
+
       hideDragHandle();
 
       view?.dom?.parentElement?.appendChild(dragHandleElement);
@@ -277,10 +293,18 @@ function DragHandle(options: GlobalDragHandleOptions) {
 const GlobalDragHandle = Extension.create({
   name: "globalDragHandle",
 
+  addOptions() {
+    return {
+      dragHandleWidth: 20,
+      scrollTreshold: 100,
+    };
+  },
+
   addProseMirrorPlugins() {
     return [
       DragHandle({
-        dragHandleWidth: 24,
+        dragHandleWidth: this.options.dragHandleWidth,
+        scrollTreshold: this.options.scrollTreshold,
       }),
     ];
   },
