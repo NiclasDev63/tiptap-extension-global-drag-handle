@@ -36,8 +36,8 @@ import GlobalDragHandle from 'tiptap-extension-global-drag-handle'
 new Editor({
   extensions: [
     GlobalDragHandle.configure{(
-        dragHandleWidth: 20,
-        scrollTreshold: 100
+      dragHandleWidth: 20,
+      scrollTreshold: 100
     )},
   ],
 })
