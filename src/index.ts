@@ -15,10 +15,19 @@ export interface GlobalDragHandleOptions {
    */
   scrollTreshold: number;
 }
-
 function absoluteRect(node: Element) {
   const data = node.getBoundingClientRect();
+  const modal = node.closest('[role="dialog"]');
 
+  if (modal && window.getComputedStyle(modal).transform !== 'none') {
+    const modalRect = modal.getBoundingClientRect();
+
+    return {
+      top: data.top - modalRect.top,
+      left: data.left - modalRect.left,
+      width: data.width,
+    };
+  }
   return {
     top: data.top,
     left: data.left,
@@ -266,16 +275,16 @@ function DragHandle(options: GlobalDragHandleOptions) {
           ) {
             const text = droppedNode.textContent;
             if (!text) return;
-            const paragraph = view.state.schema.nodes.paragraph.createAndFill(
+            const paragraph = view.state.schema.nodes.paragraph?.createAndFill(
               {},
               view.state.schema.text(text),
             );
-            const listItem = view.state.schema.nodes.listItem.createAndFill(
+            const listItem = view.state.schema.nodes.listItem?.createAndFill(
               {},
               paragraph,
             );
 
-            const newList = view.state.schema.nodes.orderedList.createAndFill(
+            const newList = view.state.schema.nodes.orderedList?.createAndFill(
               null,
               listItem,
             );
