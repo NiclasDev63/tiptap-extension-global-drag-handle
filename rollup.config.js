@@ -48,6 +48,7 @@ export default {
       tsconfig: './tsconfig.json',
       tsconfigOverride: {
         compilerOptions: {
+          baseUrl: '.',
           declaration: true,
           paths: {
             './*': ['src/*'],

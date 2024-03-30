@@ -17,13 +17,14 @@
     ".": {
       "import": "./dist/index.js",
       "require": "./dist/index.cjs",
-      "types": "./dist/index.d.ts"
+      "types": "./dist/src/index.d.ts"
     }
   },
   "main": "dist/index.cjs",
   "module": "dist/index.js",
   "umd": "dist/index.umd.js",
-  "types": "dist/index.d.ts",
+  "types": "dist/src/index.d.ts",
+  "type": "module",
   "files": [
     "dist"
   ],
