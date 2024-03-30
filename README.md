@@ -24,7 +24,7 @@ new Editor({
 })
 ```
 
-It is recommended to use this extension together with the [AutoJoiner](https://github.com/NiclasDev63/tiptap-extension-auto-joiner) extension to get the expected behavior for lists.
+In order to enjoy all the advantages of the drag handle, it is recommended to install the [AutoJoiner](https://github.com/NiclasDev63/tiptap-extension-auto-joiner) extension as well, which allows you to automatically join various nodes such as 2 lists that are next to each other.
 
 ## Configuration
 
@@ -35,14 +35,19 @@ import GlobalDragHandle from 'tiptap-extension-global-drag-handle'
 
 new Editor({
   extensions: [
-    GlobalDragHandle.configure{(
-      dragHandleWidth: 20,
-      scrollTreshold: 100
-    )},
+    GlobalDragHandle.configure({
+        dragHandleWidth: 20,    // default
+
+        // The scrollTreshold specifies how close the user must drag an element to the edge of the lower/upper screen for automatic 
+        // scrolling to take place. For example, scrollTreshold = 100 means that scrolling starts automatically when the user drags an 
+        // element to a position that is max. 99px away from the edge of the screen
+        // You can set this to 0 to prevent auto scrolling caused by this extension
+        scrollTreshold: 100     // default
+    }),
   ],
 })
 ```
 
 ## Styling
-By default the drag handle is headless, which means it doesn't contain any css.
-If you want to apply styling to the drag handle, use the class "drag-handle" in your css file.
+By default the drag handle is headless, which means it doesn't contain any css. If you want to apply styling to the drag handle, use the class "drag-handle" in your css file.
+Take a look at [this](https://github.com/steven-tey/novel/blob/main/apps/web/styles/prosemirror.css#L131) example, to see how you can apply styling.
