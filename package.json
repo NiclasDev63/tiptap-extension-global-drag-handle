@@ -37,8 +37,8 @@
   },
   "devDependencies": {
     "typescript": "^5.4.3",
-    "@tiptap/core": "^2.1.6",
-    "@tiptap/pm": "^2.1.6",
+    "@tiptap/core": ">=2.1.0",
+    "@tiptap/pm": ">=2.1.0",
     "rollup": "^2.67.0",
     "rollup-plugin-auto-external": "^2.0.0",
     "rollup-plugin-sourcemaps": "^0.6.3",

@@ -1,15 +1,15 @@
-import sizes from '@atomico/rollup-plugin-sizes'
-import babel from '@rollup/plugin-babel'
-import commonjs from '@rollup/plugin-commonjs'
-import resolve from '@rollup/plugin-node-resolve'
-import autoExternal from 'rollup-plugin-auto-external'
-import sourcemaps from 'rollup-plugin-sourcemaps'
-import typescript from 'rollup-plugin-typescript2'
+import sizes from '@atomico/rollup-plugin-sizes';
+import babel from '@rollup/plugin-babel';
+import commonjs from '@rollup/plugin-commonjs';
+import resolve from '@rollup/plugin-node-resolve';
+import autoExternal from 'rollup-plugin-auto-external';
+import sourcemaps from 'rollup-plugin-sourcemaps';
+import typescript from 'rollup-plugin-typescript2';
 
-import pkg from './package.json'
+import pkg from './package.json';
 
 export default {
-  external: [/@tiptap\/pm\/.*/],
+  external: [/@tiptap\/pm\/.*/, '@tiptap/core'],
   input: 'src/index.ts',
   output: [
     {
@@ -57,4 +57,4 @@ export default {
       },
     }),
   ],
-}
+};
