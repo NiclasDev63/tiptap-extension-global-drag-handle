@@ -13,7 +13,7 @@
     /* If transpiling with TypeScript: */
     "moduleResolution": "node",
     "module": "ESNext",
-    "outDir": "dist",
+    "outDir": "./dist",
     "sourceMap": true,
     /* AND if you're building for a library: */
     "declaration": true,
@@ -21,5 +21,8 @@
     "noEmit": true,
     /* If your code runs in the DOM: */
     "lib": ["es2022", "dom", "dom.iterable"]
-  }
+  },
+
+  "include": ["src"],
+  "exclude": ["node_modules"]
 }
