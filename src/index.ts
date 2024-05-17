@@ -211,7 +211,13 @@ function DragHandle(options: GlobalDragHandleOptions) {
             y: event.clientY,
           });
 
-          if (!(node instanceof Element) || node.matches('ul, ol')) {
+          const notDragging = node?.closest('.not-draggable');
+
+          if (
+            !(node instanceof Element) ||
+            node.matches('ul, ol') ||
+            notDragging
+          ) {
             hideDragHandle();
             return;
           }
