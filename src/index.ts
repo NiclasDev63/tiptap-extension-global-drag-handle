@@ -17,7 +17,8 @@ export interface GlobalDragHandleOptions {
   scrollTreshold: number;
 
   /*
-   * The css selector to query for the drag handle. (eg: '.custom-handle'). A handle will be created by default if this field is not set
+   * The css selector to query for the drag handle. (eg: '.custom-handle').
+   * If handle element is found, that element will be used as drag handle. If not, a default handle will be created
    */
   dragHandleSelector?: string;
 }
