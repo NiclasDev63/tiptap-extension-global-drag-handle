@@ -242,7 +242,10 @@ export function DragHandlePlugin(options: GlobalDragHandleOptions & {pluginKey: 
           }
 
           const compStyle = window.getComputedStyle(node);
-          const lineHeight = parseInt(compStyle.lineHeight, 10);
+          const parsedLineHeight = parseInt(compStyle.lineHeight, 10);
+          const lineHeight = isNaN(parsedLineHeight)
+            ? parseInt(compStyle.fontSize) * 1.2
+            : parsedLineHeight;
           const paddingTop = parseInt(compStyle.paddingTop, 10);
 
           const rect = absoluteRect(node);
