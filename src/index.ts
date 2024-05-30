@@ -1,5 +1,5 @@
 import { Extension } from '@tiptap/core';
-import { NodeSelection, Plugin, TextSelection } from '@tiptap/pm/state';
+import { NodeSelection, Plugin, PluginKey, TextSelection } from '@tiptap/pm/state';
 import { Fragment, Slice, Node } from '@tiptap/pm/model';
 
 // @ts-ignore
@@ -15,6 +15,12 @@ export interface GlobalDragHandleOptions {
    * The treshold for scrolling
    */
   scrollTreshold: number;
+
+  /*
+   * The css selector to query for the drag handle. (eg: '.custom-handle').
+   * If handle element is found, that element will be used as drag handle. If not, a default handle will be created
+   */
+  dragHandleSelector?: string;
 }
 function absoluteRect(node: Element) {
   const data = node.getBoundingClientRect();
@@ -73,7 +79,7 @@ function calcNodePos(pos: number, view: EditorView) {
   return pos;
 }
 
-function DragHandle(options: GlobalDragHandleOptions) {
+export function DragHandlePlugin(options: GlobalDragHandleOptions & {pluginKey: string}) {
   let listType = '';
   function handleDragStart(event: DragEvent, view: EditorView) {
     view.focus();
@@ -169,16 +175,22 @@ function DragHandle(options: GlobalDragHandleOptions) {
   }
 
   return new Plugin({
+    key: new PluginKey(options.pluginKey),
     view: (view) => {
-      dragHandleElement = document.createElement('div');
+      const handleBySelector = options.dragHandleSelector ? document.querySelector<HTMLElement>(options.dragHandleSelector) : null
+      dragHandleElement = handleBySelector?? document.createElement('div');
       dragHandleElement.draggable = true;
       dragHandleElement.dataset.dragHandle = '';
       dragHandleElement.classList.add('drag-handle');
-      dragHandleElement.addEventListener('dragstart', (e) => {
-        handleDragStart(e, view);
-      });
 
-      dragHandleElement.addEventListener('drag', (e) => {
+
+      function onDragHandleDragStart(e: DragEvent) {
+        handleDragStart(e, view);
+      }
+
+      dragHandleElement.addEventListener('dragstart', onDragHandleDragStart);
+
+      function onDragHandleDrag(e: DragEvent) {
         hideDragHandle();
         let scrollY = window.scrollY;
         if (e.clientY < options.scrollTreshold) {
@@ -186,15 +198,23 @@ function DragHandle(options: GlobalDragHandleOptions) {
         } else if (window.innerHeight - e.clientY < options.scrollTreshold) {
           window.scrollTo({ top: scrollY + 30, behavior: 'smooth' });
         }
-      });
+      }
+
+      dragHandleElement.addEventListener('drag', onDragHandleDrag);
 
       hideDragHandle();
 
-      view?.dom?.parentElement?.appendChild(dragHandleElement);
+      if(!handleBySelector) {
+        view?.dom?.parentElement?.appendChild(dragHandleElement);
+      }
 
       return {
         destroy: () => {
-          dragHandleElement?.remove?.();
+          if(!handleBySelector) {
+            dragHandleElement?.remove?.();
+          }
+          dragHandleElement?.removeEventListener('drag', onDragHandleDrag);
+          dragHandleElement?.removeEventListener('dragstart', onDragHandleDragStart);
           dragHandleElement = null;
         },
       };
@@ -322,9 +342,11 @@ const GlobalDragHandle = Extension.create({
 
   addProseMirrorPlugins() {
     return [
-      DragHandle({
+      DragHandlePlugin({
+        pluginKey:'globalDragHandle',
         dragHandleWidth: this.options.dragHandleWidth,
         scrollTreshold: this.options.scrollTreshold,
+        dragHandleSelector: this.options.dragHandleSelector,
       }),
     ];
   },
