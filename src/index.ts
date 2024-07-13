@@ -192,6 +192,7 @@ export function DragHandlePlugin(
         : null;
       dragHandleElement = handleBySelector ?? document.createElement("div");
       dragHandleElement.draggable = true;
+      dragHandleElement.addEventListener('mouseout', hideDragHandle);
       dragHandleElement.dataset.dragHandle = "";
       dragHandleElement.classList.add("drag-handle");
 
