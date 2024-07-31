@@ -184,6 +184,19 @@ export function DragHandlePlugin(
     }
   }
 
+  function hideHandleOnEditorOut(event: MouseEvent) {
+    if (event.target instanceof Element) {
+      const isHandle =
+        !!event.target.attributes.getNamedItem("data-drag-handle");
+      const classNames = ["tiptap", "ProseMirror"];
+      const isEditor = classNames.every((className) =>
+        (event.target as Element).classList.contains(className),
+      );
+      if (isEditor || isHandle) return;
+    }
+    hideDragHandle();
+  }
+
   return new Plugin({
     key: new PluginKey(options.pluginKey),
     view: (view) => {
@@ -218,6 +231,10 @@ export function DragHandlePlugin(
       if (!handleBySelector) {
         view?.dom?.parentElement?.appendChild(dragHandleElement);
       }
+      view?.dom?.parentElement?.addEventListener(
+        "mouseout",
+        hideHandleOnEditorOut,
+      );
 
       return {
         destroy: () => {
@@ -230,6 +247,10 @@ export function DragHandlePlugin(
             onDragHandleDragStart,
           );
           dragHandleElement = null;
+          view?.dom?.parentElement?.removeEventListener(
+            "mouseout",
+            hideHandleOnEditorOut,
+          );
         },
       };
     },
