@@ -1,4 +1,5 @@
 # Tiptap Extension: GlobalDragHandle
+![NPM Downloads](https://img.shields.io/npm/dw/tiptap-extension-global-drag-handle)
 
 ## Install
 
