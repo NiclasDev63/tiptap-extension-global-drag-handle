@@ -141,8 +141,9 @@ export function DragHandlePlugin(
     } else {
       selection = NodeSelection.create(view.state.doc, draggedNodePos);
 
-      // select complete table instead of just a row
-      if ((selection as NodeSelection).node.type.name === 'tableRow') {
+      // if inline node is selected, e.g mention -> go to the parent node to select the whole node
+      // if table row is selected, go to the parent node to select the whole node
+      if ((selection as NodeSelection).node.type.isInline || (selection as NodeSelection).node.type.name === 'tableRow') {
         let $pos = view.state.doc.resolve(selection.from);
         selection = NodeSelection.create(view.state.doc, $pos.before());
       }
