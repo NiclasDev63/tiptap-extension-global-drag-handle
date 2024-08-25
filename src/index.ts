@@ -26,6 +26,11 @@ export interface GlobalDragHandleOptions {
    * If handle element is found, that element will be used as drag handle. If not, a default handle will be created
    */
   dragHandleSelector?: string;
+
+  /**
+   * Tags to be excluded for drag handle
+   */
+  excludedTags: string[];
 }
 function absoluteRect(node: Element) {
   const data = node.getBoundingClientRect();
@@ -143,7 +148,10 @@ export function DragHandlePlugin(
 
       // if inline node is selected, e.g mention -> go to the parent node to select the whole node
       // if table row is selected, go to the parent node to select the whole node
-      if ((selection as NodeSelection).node.type.isInline || (selection as NodeSelection).node.type.name === 'tableRow') {
+      if (
+        (selection as NodeSelection).node.type.isInline ||
+        (selection as NodeSelection).node.type.name === 'tableRow'
+      ) {
         let $pos = view.state.doc.resolve(selection.from);
         selection = NodeSelection.create(view.state.doc, $pos.before());
       }
@@ -265,10 +273,13 @@ export function DragHandlePlugin(
           });
 
           const notDragging = node?.closest('.not-draggable');
+          const excludedTagList = options.excludedTags
+            .concat(['ol', 'ul'])
+            .join(', ');
 
           if (
             !(node instanceof Element) ||
-            node.matches('ul, ol') ||
+            node.matches(excludedTagList) ||
             notDragging
           ) {
             hideDragHandle();
@@ -359,6 +370,7 @@ const GlobalDragHandle = Extension.create({
     return {
       dragHandleWidth: 20,
       scrollTreshold: 100,
+      excludedTags: ['ul', 'ol'],
     };
   },
 
@@ -369,6 +381,7 @@ const GlobalDragHandle = Extension.create({
         dragHandleWidth: this.options.dragHandleWidth,
         scrollTreshold: this.options.scrollTreshold,
         dragHandleSelector: this.options.dragHandleSelector,
+        excludedTags: this.options.excludedTags,
       }),
     ];
   },
