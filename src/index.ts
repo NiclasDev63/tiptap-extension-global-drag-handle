@@ -370,7 +370,7 @@ const GlobalDragHandle = Extension.create({
     return {
       dragHandleWidth: 20,
       scrollTreshold: 100,
-      excludedTags: ['ul', 'ol'],
+      excludedTags: [],
     };
   },
 
