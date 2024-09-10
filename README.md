@@ -49,7 +49,13 @@ new Editor({
         // The css selector to query for the drag handle. (eg: '.custom-handle').
         // If handle element is found, that element will be used as drag handle. 
         // If not, a default handle will be created
-        dragHandleSelector: ".custom-drag-handle" // default is undefined
+        dragHandleSelector: ".custom-drag-handle", // default is undefined
+
+
+        // Tags to be excluded for drag handle
+        // If you want to hide the global drag handle for specific HTML tags, you can use this option.
+        // For example, setting this option to ['p', 'hr'] will hide the global drag handle for <p> and <hr> tags.
+        excludedTags: [], // default
     }),
   ],
 })
