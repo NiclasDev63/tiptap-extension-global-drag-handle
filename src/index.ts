@@ -198,11 +198,11 @@ export function DragHandlePlugin(
       const isInsideEditor = !!event.target.closest('.tiptap.ProseMirror');
       const isHandle =
         !!!event.target.attributes.getNamedItem('data-drag-handle');
-      const toElement = event.relatedTarget as Element;
-      // Check if the toElement class is tiptap
+      const relatedTarget = event.relatedTarget as Element;
+      // Check if the relatedTarget class is tiptap
       const isTipTap =
-        toElement?.classList.contains('tiptap') ||
-        toElement?.classList.contains('drag-handle');
+        relatedTarget?.classList.contains('tiptap') ||
+        relatedTarget?.classList.contains('drag-handle');
       if (!isTipTap) {
         hideDragHandle();
         return;
