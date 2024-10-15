@@ -31,6 +31,11 @@ export interface GlobalDragHandleOptions {
    * Tags to be excluded for drag handle
    */
   excludedTags: string[];
+
+  /**
+   * Custom nodes to be included for drag handle
+   */
+  customNodes: string[];
 }
 function absoluteRect(node: Element) {
   const data = node.getBoundingClientRect();
@@ -52,7 +57,10 @@ function absoluteRect(node: Element) {
   };
 }
 
-function nodeDOMAtCoords(coords: { x: number; y: number }) {
+function nodeDOMAtCoords(
+  coords: { x: number; y: number },
+  options: GlobalDragHandleOptions,
+) {
   return document
     .elementsFromPoint(coords.x, coords.y)
     .find(
@@ -65,6 +73,7 @@ function nodeDOMAtCoords(coords: { x: number; y: number }) {
             'pre',
             'blockquote',
             'h1, h2, h3, h4, h5, h6',
+            options.customNodes.map((node) => `[data-type=${node}]`),
           ].join(', '),
         ),
     );
@@ -98,10 +107,13 @@ export function DragHandlePlugin(
 
     if (!event.dataTransfer) return;
 
-    const node = nodeDOMAtCoords({
-      x: event.clientX + 50 + options.dragHandleWidth,
-      y: event.clientY,
-    });
+    const node = nodeDOMAtCoords(
+      {
+        x: event.clientX + 50 + options.dragHandleWidth,
+        y: event.clientY,
+      },
+      options,
+    );
 
     if (!(node instanceof Element)) return;
 
@@ -267,10 +279,13 @@ export function DragHandlePlugin(
             return;
           }
 
-          const node = nodeDOMAtCoords({
-            x: event.clientX + 50 + options.dragHandleWidth,
-            y: event.clientY,
-          });
+          const node = nodeDOMAtCoords(
+            {
+              x: event.clientX + 50 + options.dragHandleWidth,
+              y: event.clientY,
+            },
+            options,
+          );
 
           const notDragging = node?.closest('.not-draggable');
           const excludedTagList = options.excludedTags
@@ -371,6 +386,7 @@ const GlobalDragHandle = Extension.create({
       dragHandleWidth: 20,
       scrollTreshold: 100,
       excludedTags: [],
+      customNodes: [],
     };
   },
 
@@ -382,6 +398,7 @@ const GlobalDragHandle = Extension.create({
         scrollTreshold: this.options.scrollTreshold,
         dragHandleSelector: this.options.dragHandleSelector,
         excludedTags: this.options.excludedTags,
+        customNodes: this.options.customNodes,
       }),
     ];
   },
