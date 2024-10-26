@@ -1,7 +1,7 @@
 {
   "name": "tiptap-extension-global-drag-handle",
   "description": "drag handle extension for tiptap",
-  "version": "0.1.11",
+  "version": "0.1.13",
   "author": {
     "name": "Niclas Gregor",
     "email": "niclas.gregor20@gmail.com",
