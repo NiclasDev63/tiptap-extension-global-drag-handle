@@ -56,6 +56,12 @@ new Editor({
         // If you want to hide the global drag handle for specific HTML tags, you can use this option.
         // For example, setting this option to ['p', 'hr'] will hide the global drag handle for <p> and <hr> tags.
         excludedTags: [], // default
+
+        // Custom nodes to be included for drag handle
+        // For example having a custom Alert component. Add data-type="alert" to the node component wrapper.
+        // Then add it to this list as ['alert']
+        //
+        customNodes: [],
     }),
   ],
 })
