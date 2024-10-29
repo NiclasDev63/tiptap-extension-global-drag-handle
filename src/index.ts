@@ -73,7 +73,7 @@ function nodeDOMAtCoords(
             'pre',
             'blockquote',
             'h1, h2, h3, h4, h5, h6',
-            options.customNodes.map((node) => `[data-type=${node}]`),
+            options.customNodes.length > 0 && options.customNodes.map((node) => `[data-type=${node}]`),
           ].join(', '),
         ),
     );
