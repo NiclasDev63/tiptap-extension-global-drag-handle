@@ -301,8 +301,6 @@ export function DragHandlePlugin(
             .concat(['ol', 'ul'])
             .join(', ');
 
-          console.log(options, node, excludedTagList)
-
           if (
             !(node instanceof Element) ||
             node.matches(excludedTagList) ||
