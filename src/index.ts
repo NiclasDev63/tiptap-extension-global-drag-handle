@@ -61,6 +61,9 @@ function nodeDOMAtCoords(
   coords: { x: number; y: number },
   options: GlobalDragHandleOptions,
 ) {
+  const nonSelectors = [
+    'td > p'
+  ].join(', ');
   const selectors = [
     'li',
     'p:not(:first-child)',
@@ -78,8 +81,8 @@ function nodeDOMAtCoords(
     .elementsFromPoint(coords.x, coords.y)
     .find(
       (elem: Element) =>
-        elem.parentElement?.matches?.('.ProseMirror') ||
-        elem.matches(selectors),
+        (elem.parentElement?.matches?.('.ProseMirror') ||
+        elem.matches(selectors)) && !elem.matches(nonSelectors),
     );
 }
 function nodePosAtDOM(
