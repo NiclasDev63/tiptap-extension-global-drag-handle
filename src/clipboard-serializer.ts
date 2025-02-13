@@ -1,19 +1,29 @@
-import * as pmView from '@tiptap/pm/view';
 import { Slice } from '@tiptap/pm/model';
+import { EditorView } from '@tiptap/pm/view';
+import * as pmView from '@tiptap/pm/view';
 
-export function serializeForClipboard(view: pmView.EditorView, slice: Slice) {
+function getPmView() {
+  try {
+      return pmView;
+  } catch (error) {
+      return null;
+  }
+}
+
+
+export function serializeForClipboard(view: EditorView, slice: Slice) {
   // Newer Tiptap/ProseMirror
   // @ts-ignore
-  if (typeof view.serializeForClipboard === 'function') {
-    // @ts-ignore
+  if (view && typeof view.serializeForClipboard === 'function') {
     return view.serializeForClipboard(slice);
   }
 
   // Older version fallback
+  const proseMirrorView = getPmView();
   // @ts-ignore
-  if (typeof pmView.__serializeForClipboard === 'function') {
+  if (proseMirrorView && typeof proseMirrorView?.__serializeForClipboard === 'function') {
     // @ts-ignore
-    return pmView.__serializeForClipboard(view, slice);
+    return proseMirrorView.__serializeForClipboard(view, slice);
   }
 
   throw new Error('No supported clipboard serialization method found.');
